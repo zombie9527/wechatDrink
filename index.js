@@ -69,7 +69,7 @@ async function getJoke() {
       var body = Buffer.concat(chunks);
       // console.log(body.toString());
       // ress(body)
-      sendMessage(body)
+      sendMessage(body.toString())
     });
 
     res.on("error", function (error) {
