@@ -87,9 +87,9 @@ async function getJoke() {
 const server = http.createServer((req, res) => {
   // console.log(req.path)
   // console.log(req.url.slice(1))
-  const message = req.url.slice(1);
+  const message = req.url.slice(2);
   if (message) {
-    sendMessageToMe(message);
+    sendMessageToMe(decodeURI(message));
   }
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({
