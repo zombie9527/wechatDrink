@@ -1,27 +1,12 @@
-var http = require('http');
 
-var options = {
-  'method': 'GET',
-  'hostname': '127.0.0.1',
-  'port': 8090,
-  'path': '/j?type=1',
-};
-
-var req = http.request(options, function (res) {
-  var chunks = [];
-
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
-  res.on("end", function (chunk) {
-    var body = Buffer.concat(chunks);
-    console.log(body.toString());
-  });
-
-  res.on("error", function (error) {
-    console.error(error);
-  });
+const http = require('http');
+const server = http.createServer((req, res) => {
+  console.log(req.path)
+  console.log(req.url.slice(1))
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({
+    data: 'Hello World!'
+  }));
 });
 
-req.end();
+server.listen(8091);

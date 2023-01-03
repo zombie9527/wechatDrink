@@ -37,7 +37,7 @@ async function messageRoom() {
   if (!button) {
     return;
   }
-  if (moment().hour() > 21) {
+  if (moment().hour() >= 21) {
     clearInterval(interval);
     interval = null;
   }
@@ -49,6 +49,10 @@ async function sendMessage(message) {
   roomConnection.say(message)
 }
 
+async function sendMessageToMe() {
+  const meConnection = await wechaty.Contact.find('我自己')
+  meConnection.say(message)
+}
 
 async function getJoke() {
   const options = {
@@ -79,3 +83,18 @@ async function getJoke() {
 
   req.end();
 }
+
+const server = http.createServer((req, res) => {
+  // console.log(req.path)
+  // console.log(req.url.slice(1))
+  const message = req.url.slice(1);
+  if (message) {
+    sendMessageToMe(message);
+  }
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({
+    data: 'Hello World!'
+  }));
+});
+
+server.listen(8091);
