@@ -49,7 +49,7 @@ async function sendMessage(message) {
   roomConnection.say(message)
 }
 
-async function sendMessageToMe() {
+async function sendMessageToMe(message) {
   const meConnection = await wechaty.Contact.find('我自己')
   meConnection.say(message)
 }
