@@ -97,4 +97,4 @@ const server = http.createServer((req, res) => {
   }));
 });
 
-server.listen(8091);
+server.listen(8091, '127.0.0.1');
