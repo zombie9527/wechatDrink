@@ -7,6 +7,7 @@ const http = require('http');
 
 let interval;
 let button = true;
+let historyMessage = [];
 const wechaty = WechatyBuilder.build() // get a Wechaty instance
 wechaty
   .on('scan', (qrcode, status) =>
@@ -28,9 +29,63 @@ wechaty
     } else if (message?.payload?.text === '@讲笑话') {
       getJoke();
     }
+    GPTCaht(message);
   })
 wechaty.start()
 
+async function GPTCaht(message) {
+  if (await message.mentionSelf()) {
+    const room = message.room();
+    if (room) {
+      const topic = await room.topic()
+      console.log(topic)
+      if (topic !== '何禾子的健康生活') {
+        return;
+      }
+      const text = msg.text()
+      const result = await sendGPT(text);
+      await msg.say(result)
+    }
+  }
+}
+
+async function sendGPT(message) {
+  return new promise((resolve, reject) => {
+    var options = {
+      'method': 'POST',
+      'hostname': '127.0.0.1',
+      'port': 8090,
+      'path': '/g',
+      'headers': {
+        'Content-Type': 'text/plain'
+      },
+      'maxRedirects': 20
+    };
+
+    var req = http.request(options, function (res) {
+      var chunks = [];
+
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        resolve(body.toString());
+      });
+
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+
+    var postData = message;
+
+    req.write(postData);
+
+    req.end();
+  });
+}
 
 async function messageRoom() {
 
