@@ -50,7 +50,7 @@ async function GPTCaht(message) {
 }
 
 async function sendGPT(message) {
-  return new promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     var options = {
       'method': 'POST',
       'hostname': '127.0.0.1',
