@@ -42,9 +42,9 @@ async function GPTCaht(message) {
       if (topic !== '何禾子的健康生活') {
         return;
       }
-      const text = msg.text()
+      const text = message.text()
       const result = await sendGPT(text);
-      await msg.say(result)
+      await message.say(result)
     }
   }
 }
